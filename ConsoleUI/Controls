@@ -1,4 +1,8 @@
-   ---- CONTROLES -----
-      
-     W              E - INTERACTUAR
- A - S - D          I - INVENTARIO
+
+# Paredes        | P Personaje
+. Espacio Libre  | - Puerta
+    
+        ---- CONTROLES ----
+          
+      W              E - INTERACTUAR
+  A - S - D          I - INVENTARIO

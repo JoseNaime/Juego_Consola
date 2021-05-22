@@ -1,7 +1,3 @@
-//
-// Created by Jose Naime on 14/05/21.
-//
-
 #ifndef PROYECTO_JUEGO_MAP_H
 #define PROYECTO_JUEGO_MAP_H
 
@@ -12,12 +8,13 @@ class Map {
     public:
         Map();
         Map(string);
-        void stringToMatrix(string);
         char getPosition(int, int) const;
         void setPosition(int, int, char);
-        void print();
+        void stringToMatrix(string); // Crea matriz a partir de un archivo
+        bool canMoveToPosition(int, int); // Checa si la ubicacion es valida
+        void print(); // Imprime el mapa
     private:
-        char mapArr[10][10]{};
+        char mapArr[17][12]{}; // [alto][ancho]
 };
 
 

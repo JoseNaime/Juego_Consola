@@ -1,7 +1,3 @@
-//
-// Created by Jose Naime on 14/05/21.
-//
-
 #ifndef PROYECTO_JUEGO_ROOM_H
 #define PROYECTO_JUEGO_ROOM_H
 

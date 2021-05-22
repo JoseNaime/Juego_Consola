@@ -1,6 +1,3 @@
-//
-// Created by Jose Naime on 14/05/21.
-//
 #define MENU_URL "./ConsoleUI/Menu"
 #define CONTROLS_URL "./ConsoleUI/Controls"
 #define INSTRUCTIONS_URL "./ConsoleUI/Instructions"
@@ -9,9 +6,9 @@
 #include <fstream>
 #include <iostream>
 #include <unistd.h>
+#include <cctype>
 
 #include "Game.h"
-
 
 Game::Game(Map* map, Player* player) {
     this->map = map;
@@ -32,17 +29,17 @@ void Game::start() {
     cin >> option;
 
     switch(option){
-        case 1:
+        case 1: // Play game
             setGameState(IN_GAME);
             gameLoop();
         break;
-        case 2:
+        case 2: // Introduccion
             printTextFile(INSTRUCTIONS_URL, 2);
             char a;
             cin >> a;
             if (a) start();
             break;
-        case 3:
+        case 3: // Salir del juego
             setGameState(END);
             cout << "Gracias por jugar, vuelve pronto" << endl;
             break;
@@ -55,15 +52,40 @@ void Game::start() {
 
 void Game::gameLoop() {
     printTextFile(INTRO_URL, 2);
-    display();
-    /*while (this->gameState == IN_GAME){
+    while (this->gameState == IN_GAME){
         display();
         getInput();
-    }*/
+        logic();
+    }
 }
 
 void Game::getInput(){
+  char input;
+  cin >> input;
+  switch (input){
+    case 'd':
+      this->player->moveTo(RIGHT, *map);
+    break;
+    case 'a':
+      this->player->moveTo(LEFT, *map);
+    break;
+    case 'w':
+      this->player->moveTo(UP, *map);
+    break;
+    case 's':
+      this->player->moveTo(DOWN, *map);
+    break;
 
+    case 'q':
+      this->gameState = END;
+    break;
+  }
+
+}
+
+void Game::logic(){
+
+  std::cout << player->getPosX() << " | " << player->getPosY() << endl;
 }
 
 void Game::display(){
@@ -77,6 +99,7 @@ void Game::printTextFile(string url, float delay){
         string line;
         while(getline(file,line)){
             cout << line << endl;
+            
             usleep(delay * 100000); // Delay between text line
         }
         file.close();

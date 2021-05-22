@@ -1,5 +1,4 @@
 //
-// Created by Jose Naime on 14/05/21.
 //
 #include <iostream>
 #include <fstream>
@@ -24,7 +23,7 @@ void Map::stringToMatrix(string url) {
 
         while ( getline (file,line) )
         {
-            for (int i = 0; i <= 10; i++){
+            for (int i = 0; i <= 12; i++){
                 mapArr[j][i]= line[i];
             }
             j++;
@@ -34,11 +33,15 @@ void Map::stringToMatrix(string url) {
 }
 
 char Map::getPosition(int i, int j) const {
-    return this->mapArr[i][j];
+    return this->mapArr[j][i];
 }
 
 void Map::setPosition(int i, int j, char v) {
-    this->mapArr[i][j] = v;
+    this->mapArr[j][i] = v;
+}
+
+bool Map::canMoveToPosition(int, int){
+  return true;
 }
 
 void Map::print() {

@@ -1,7 +1,3 @@
-//
-// Created by Jose Naime on 14/05/21.
-//
-
 #ifndef PROYECTO_JUEGO_GAME_H
 #define PROYECTO_JUEGO_GAME_H
 
@@ -21,6 +17,7 @@ class Game {
         void start();
         void gameLoop();
         void getInput();
+        void logic();
         void display();
         static void printTextFile(string, float);
 
