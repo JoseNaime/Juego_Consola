@@ -18,7 +18,6 @@ class Player {
 
     private:
         int posX, posY;
-        int lives = 3;
 
 };
 

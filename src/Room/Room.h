@@ -8,6 +8,7 @@ class Room {
         Room();
         Room(int, int);
     private:
+        string name, initDescription;
         int position[2];
 
 };
