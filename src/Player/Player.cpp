@@ -1,13 +1,13 @@
 #include "Player.h"
 
 Player::Player() {
-    this->posX = 1;
-    this->posY = 1;
+    posX = 1;
+    posY = 1;
 }
 
-Player::Player(int x, int y){
-    this->posX = x;
-    this->posY = y;
+Player::Player(string n, int liv, int dam, int x, int y):Character(n, liv, dam){
+    posX = x;
+    posY = y;
 }
 
 void Player::moveTo(DIRECTION dir, Map& map){
@@ -51,15 +51,15 @@ int Player::getPosY() const{
 }
 
 void Player::setPos(int x, int y){
-    this->posX = x;
-    this->posY = y;
+    posX = x;
+    posY = y;
 }
 
 void Player::setPosX(int x){
-    this->posX = x;
+    posX = x;
 }
 
 void Player::setPosY(int y){
-    this->posY = y;
+    posY = y;
 }
 
