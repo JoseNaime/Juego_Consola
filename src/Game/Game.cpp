@@ -8,6 +8,12 @@
 #include <unistd.h>
 #include <cctype>
 
+#ifdef __cplusplus__
+  #include <cstdlib>
+#else
+  #include <stdlib.h>
+#endif
+
 #include "Game.h"
 
 Game::Game(Map* map, Player* player) {
@@ -23,6 +29,10 @@ GAME_STATE Game::getGameState() const {
 }
 
 void Game::start() {
+  try{
+    string name;
+    cout << "Ingresa tu nombre" << endl;
+    cin >> name;
     printTextFile(MENU_URL, 2); // Print Menu
 
     int option;
@@ -48,18 +58,25 @@ void Game::start() {
             start();
             break;
     }
+    }catch(string e){
+      cout << "Error al iniciar el juego: " + e;
+    }
 }
 
 void Game::gameLoop() {
+    try{
     printTextFile(INTRO_URL, 2);
     while (this->gameState == IN_GAME){
         display();
         getInput();
         logic();
     }
+    }catch(string e){
+      cout << "Error en el loop del juego: " + e;
+    }
 }
 
-void Game::getInput(){
+void Game::getInput(){ // Controles de jugador
   char input;
   cin >> input;
   switch (input){
@@ -89,11 +106,14 @@ void Game::logic(){
 }
 
 void Game::display(){
+    if (system("CLS")) system("clear");
     this->map->print();
     printTextFile(CONTROLS_URL, 0);
 }
 
 void Game::printTextFile(string url, float delay){
+  try{
+    if (system("CLS")) system("clear");
     ifstream file(url);
     if (file.is_open()){
         string line;
@@ -104,4 +124,7 @@ void Game::printTextFile(string url, float delay){
         }
         file.close();
     }
+  }catch(string e){
+      cout << "Error al imprimir archivo de texto: " + e;
+  }
 }

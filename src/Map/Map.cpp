@@ -8,14 +8,15 @@
 using namespace std;
 
 Map::Map() {
-    stringToMatrix("./Levels/Room1");
+    stringToMatrix("./Levels/Map");
 }
 
 Map::Map(string mapUrl) {
-    stringToMatrix("./Levels/Room1");
+    stringToMatrix(mapUrl);
 }
 
 void Map::stringToMatrix(string url) {
+  try{
     ifstream file(url);
     if (file.is_open()) { // Load File
         string line;
@@ -30,6 +31,9 @@ void Map::stringToMatrix(string url) {
         }
         file.close();
     }
+  }catch(string e){
+    cout << "Error al cargar mapa como matriz: " + e;
+  }
 }
 
 char Map::getPosition(int i, int j) const {

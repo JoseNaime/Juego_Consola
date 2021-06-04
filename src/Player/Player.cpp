@@ -26,7 +26,7 @@ void Player::moveTo(DIRECTION dir, Map& map){
             move[1] = 1;
             break;
         default:
-            std::cout << "Direccion Invalida" << std::endl;
+            cout << "Direccion Invalida" << endl;
     }
     if (move[0] != 0 || move[1] != 0){
 

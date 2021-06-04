@@ -1,7 +1,6 @@
 #ifndef PROYECTO_JUEGO_GAME_H
 #define PROYECTO_JUEGO_GAME_H
 
-#include "string"
 #include "./../Map/Map.h"
 #include "./../Player/Player.h"
 

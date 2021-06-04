@@ -2,8 +2,12 @@
 #define PROYECTO_JUEGO_PLAYER_H
 
 #include <iostream>
+#include <vector>
+
 #include "../Character/Character.h"
 #include "../Map/Map.h"
+
+using namespace std;
 
 enum DIRECTION {LEFT, RIGHT, UP, DOWN}; // Posiciones donde se 
 class Player : public Character {
@@ -11,6 +15,8 @@ class Player : public Character {
         Player();
         Player(string, int, int, int, int); // name, lives, damage, x, y
         void moveTo(DIRECTION, Map&);
+        void useItem(&Item);
+
         int getPosX() const;
         int getPosY() const;
         void setPos(int, int);
@@ -19,6 +25,8 @@ class Player : public Character {
 
     private:
         int posX, posY;
+        Item[4] inventory
+        
 
 };
 

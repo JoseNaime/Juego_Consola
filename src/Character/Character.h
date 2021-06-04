@@ -2,8 +2,8 @@
 #define PROYECTO_JUEGO_CHARACTER_H
 
 #include "string"
-
 using namespace std;
+
 class Character{
 public:
   Character();

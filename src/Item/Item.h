@@ -1,6 +1,5 @@
 #ifndef PROYECTO_JUEGO_ITEM_H
 #define PROYECTO_JUEGO_ITEM_H
-
 #include "string"
 using namespace std;
 
@@ -9,6 +8,15 @@ class Item{
   public:
     Item();
     Item(string, string, ITEM_TYPE, int);
+
+    string getName() const;
+    string getDescription() const;
+    ITEM_TYPE getItemType() const;
+    void setName(string);
+    void setDescription(string);
+    void setItemType(ITEM_TYPE);
+
+
   private:
     string name, description;
     ITEM_TYPE itemType;

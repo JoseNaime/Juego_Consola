@@ -4,12 +4,13 @@ Room::Room(){
 
 }
 
-Room::Room(string nam, string ini, Item* items[3], int x, int y){
+Room::Room(string nam, string ini, Item* items[3], int x, int y, bool lock){
   name = nam;
   initDescription = ini;
   items = items;
   posX = x;
   posY = y;
+  locked = lock;
 }
 
 string Room::getName() const{
