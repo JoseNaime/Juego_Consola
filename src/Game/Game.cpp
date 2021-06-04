@@ -113,7 +113,6 @@ void Game::display(){
 
 void Game::printTextFile(string url, float delay){
   try{
-    if (system("CLS")) system("clear");
     ifstream file(url);
     if (file.is_open()){
         string line;

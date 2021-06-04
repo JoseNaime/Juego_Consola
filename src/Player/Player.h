@@ -6,6 +6,7 @@
 
 #include "../Character/Character.h"
 #include "../Map/Map.h"
+#include "../Item/Item.h"
 
 using namespace std;
 
@@ -15,7 +16,6 @@ class Player : public Character {
         Player();
         Player(string, int, int, int, int); // name, lives, damage, x, y
         void moveTo(DIRECTION, Map&);
-        void useItem(&Item);
 
         int getPosX() const;
         int getPosY() const;
@@ -25,7 +25,7 @@ class Player : public Character {
 
     private:
         int posX, posY;
-        Item[4] inventory
+
         
 
 };
