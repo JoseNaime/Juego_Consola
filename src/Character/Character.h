@@ -1,26 +1,34 @@
+// Un proyecto elaborado por: 
+// Andrés Alejandro Guzmán González - A01633819
+// José Pablo Naime García - A01367610
+// © 2021 José Pablo Naime García Andrés Alejandro Guzmán González All Rights Reserved
+
 #ifndef PROYECTO_JUEGO_CHARACTER_H
 #define PROYECTO_JUEGO_CHARACTER_H
+
+// Character es la clase padre de las clases Player y Enemy
 
 #include "string"
 using namespace std;
 
 class Character{
-public:
-  Character();
-  Character(string, int, int);
+    public:
+      Character(); // Constructor sin parametros
+      Character(string, int, int); // Constructor con parametros
 
-  string getName() const;
-  int getLives() const;
-  int getDamage() const;
+      string getName() const; // Regresa el nombre del personaje
+      int getLives() const; // Regresa las vidas del personaje
+      int getDamage() const; // Regresa los puntos de daño del personaje
 
-  void setName(string);
-  void setLives(int);
-  void setDamage(int);
+      void setName(string); // Asigna el nombre del personaje
+      void setLives(int); // Asigna las vidas del personaje
+      void setDamage(int); // Asigna el nivel de daño
 
-  void attack(int, Character*);
-private:
-  string name;
-  int lives, damage;
+      //Declarada como VIRTUAL en UML
+      void attack(int, Character*); // Funcion de ataque
+    private:
+      string name;
+      int lives, damage;
 };
 
 #endif

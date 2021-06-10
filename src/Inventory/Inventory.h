@@ -1,3 +1,8 @@
+// Un proyecto elaborado por: 
+// Andrés Alejandro Guzmán González - A01633819
+// José Pablo Naime García - A01367610
+// © 2021 José Pablo Naime García Andrés Alejandro Guzmán González All Rights Reserved
+
 #ifndef PROYECTO_JUEGO_INVENTORY_H
 #define PROYECTO_JUEGO_INVENTORY_H
 
@@ -7,26 +12,28 @@
 using namespace std;
 
 class Inventory{
-  public:
-  Inventory();
-  Inventory(int, vector<Item*>);
+    public:
+    Inventory(); //Constructor sin parametros
+    Inventory(int, vector<Item*>); //Constructor con parametros
 
-  void addItem(Item*);
-  void removeItem(Item*);
-  void printInventory();
+    void addItem(Item*); //Metodo para agregar un Item al inventario
+    void removeItem(Item*); //Metodo para eliminar un Item del inventario
+    void printInventory();  // Imprime el inventario
 
-  vector<Item*> getItems() const;
-  int getSpace() const;
-  void setItems(vector<Item*>);
-  void setSpace(int);
+    vector<Item*> getItems() const; // Regresa un vector con los Items del inventario
+    int getSpace() const; //Regresa el espacio máximo del inventario
+    void setItems(vector<Item*>); // Asigna un vector con los Items al inventario
+    void setSpace(int); //Asigna el espacio máximo del inventario
 
-  void operator-=(Item*);
-  void operator+=(Item*);
+    // SOBRECARGA DE OPERADORES
 
-  private:
-  int currentSpace = 0;
-  int space;
-  vector<Item*> items;
+    void operator-=(Item*); // Quita un Item del inventario del jugador
+    void operator+=(Item*); // Agrega un item del inventario de jugador
+
+    private:
+    int currentSpace = 0;
+    int space;
+    vector<Item*> items;
 
 };
 

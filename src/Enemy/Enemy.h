@@ -1,17 +1,24 @@
+// Un proyecto elaborado por: 
+// Andrés Alejandro Guzmán González - A01633819
+// José Pablo Naime García - A01367610
+// © 2021 José Pablo Naime García Andrés Alejandro Guzmán González All Rights Reserved
+
 #ifndef PROYECTO_JUEGO_ENEMY_H
 #define PROYECTO_JUEGO_ENEMY_H
+
+// La clase Enemy es una clase derivada de la clase Character
 
 #include "../Character/Character.h"
 #include "../Item/Item.h"
 
 class Enemy: public Character{
     public:
-        Enemy();
-        Enemy(string, int, int, string, Item*);
-        string getEnemyDescriptUrl() const;
-        void setEnemyDescriptUrl(string);
-        Item* getEnemyItem();
-        void setEnemy(Item*);
+        Enemy(); // Constructor sin parametros
+        Enemy(string, int, int, string, Item*); // Constructor con parametros
+        string getEnemyDescriptUrl() const; // Regresa la descripcion del enemigo
+        void setEnemyDescriptUrl(string); // Asigna la descripcion del enemigo
+        Item* getEnemyItem(); // Regresa el reward o item que tiene el enemigo
+        void setEnemy(Item*); // Asigna el reward o item que tiene el enemigo
     private:
         string enemyDescriptUrl;
         Item* item;

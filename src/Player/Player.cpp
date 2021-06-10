@@ -1,4 +1,10 @@
+// Un proyecto elaborado por: 
+// Andrés Alejandro Guzmán González - A01633819
+// José Pablo Naime García - A01367610
+// © 2021 José Pablo Naime García Andrés Alejandro Guzmán González All Rights Reserved
+
 #include "Player.h"
+#include "../Game/Game.h"
 
 Player::Player() {
     posX = 1;
@@ -11,7 +17,7 @@ Player::Player(string n, int liv, int dam, int x, int y):Character(n, liv, dam){
     inventory = new Inventory();
 }
 
-void Player::moveTo(DIRECTION dir){
+PLAYER_CONTEXT Player::moveTo(DIRECTION dir){
     int move [2] = {0,0};
     switch (dir){
         case RIGHT:
@@ -37,27 +43,29 @@ void Player::moveTo(DIRECTION dir){
             setPos(getPosX() + move[0], getPosY() + move[1]);
             map->setPosition(getPosX() - move[0], getPosY() - move[1], '.');
             map->setPosition(getPosX(), getPosY(), 'P');
-            break;
+            return NAVIGATE;
           }
           case '|':{
             vector<Room*> rooms = map->getRooms();
-            for (int i = 0; i < sizeof(map->getRooms()); i++){
-              Room* currentRoom = rooms[i];
-              if (currentRoom->getPosX() == getPosX() + move[0] && currentRoom->getPosY() == getPosY() + move[1]){
+            for (Room* currentRoom : rooms){
+              if (currentRoom->getPosition()[0] == getPosX() + move[0] && currentRoom->getPosition()[1] == getPosY() + move[1]){
                 if (currentRoom->getLocked()){
                   cout << "El " << currentRoom->getName() << " esta cerrado, deberas buscar una forma de abrirlo" << endl;
+                  Game::enterToContinue();
+                  return NAVIGATE;
+                  break;
+                }else{
+                  currentRoom->setPlayerIsIn(true);
+                  return IN_ROOM;
+                  break;
                 }
-                currentRoom->printInfo();
-                break;
               }
             }
-          break;
+          return NAVIGATE;
           }
-          default:
-
-          break;
         }
     }
+    return NAVIGATE;
 }
 
 int Player::getPosX() const{

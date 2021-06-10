@@ -1,3 +1,8 @@
+// Un proyecto elaborado por: 
+// Andrés Alejandro Guzmán González - A01633819
+// José Pablo Naime García - A01367610
+// © 2021 José Pablo Naime García Andrés Alejandro Guzmán González All Rights Reserved
+
 #include "Inventory.h"
 
 Inventory::Inventory() {
@@ -37,8 +42,8 @@ void Inventory::printInventory(){
     cout << "El inventario esta vacio, busca algunos objetos" << endl;
   }else{
     cout << "Inventario: " << endl;
-    for (int i = 0; i < items.size(); i++){
-      cout << "- " << items[i]->getName() << " : " << items[i]->getDescription() << endl;
+    for (Item* item : items){
+      cout << "- " << item->getName() << " : " << item->getDescription() << endl;
     }
   }
   string aux;
