@@ -2,6 +2,8 @@
 #define PROYECTO_JUEGO_GAME_H
 
 #include "./../Map/Map.h"
+#include "./../Room/Room.h"
+#include "./../Item/Item.h"
 #include "./../Player/Player.h"
 
 enum GAME_STATE {START, IN_GAME, END};
@@ -18,10 +20,14 @@ class Game {
         void getInput();
         void logic();
         void display();
+        static void clearScreen(float);
+        static void addDelay(float);
         static void printTextFile(string, float);
-
+        static void printTextFile(string, float, bool);
+        
     private:
         GAME_STATE gameState;
+        string globalInput = '';
         Player* player;
         Map* map;
 };

@@ -13,7 +13,7 @@ Character::Character(string nam, int liv, int dam){
 }
 
 void Character::attack(int damage, Character *target){
-  target->setLives(getLives()  - damage);
+  target->setLives(getLives() - damage);
 }
 
 string Character::getName() const{

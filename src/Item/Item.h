@@ -12,10 +12,11 @@ class Item{
     string getName() const;
     string getDescription() const;
     ITEM_TYPE getItemType() const;
+    int getSize() const;
     void setName(string);
     void setDescription(string);
     void setItemType(ITEM_TYPE);
-
+    void setSize(int);
 
   private:
     string name, description;
