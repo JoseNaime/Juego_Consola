@@ -6,6 +6,7 @@
 #include "./../Item/Item.h"
 #include "./../Player/Player.h"
 
+
 enum GAME_STATE {START, IN_GAME, END};
 
 class Game {
@@ -14,7 +15,7 @@ class Game {
 
         void setGameState(GAME_STATE);
         GAME_STATE getGameState() const;
-
+        
         void start();
         void gameLoop();
         void getInput();
@@ -24,10 +25,9 @@ class Game {
         static void addDelay(float);
         static void printTextFile(string, float);
         static void printTextFile(string, float, bool);
-        
+        static void setGlobalInput();
     private:
         GAME_STATE gameState;
-        string globalInput = '';
         Player* player;
         Map* map;
 };

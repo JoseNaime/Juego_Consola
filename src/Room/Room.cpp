@@ -63,6 +63,6 @@ void Room::printInfo(){ // Se imprime toda la informacion del cuarto
     Game::addDelay(1); // Delay between text line
     cout << "- " << items[i]->getName() << endl;
   }
-  cin >> Game::globalInput;
+  
 
 }

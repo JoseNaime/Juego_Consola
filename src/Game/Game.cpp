@@ -30,6 +30,7 @@ GAME_STATE Game::getGameState() const {
     return this->gameState;
 }
 
+
 void Game::start() {
   *player->getInventory() += new Item("Llave Final", "Esta llave te ayuda a abrir la puerta final", KEY, 1);
   try{
@@ -128,7 +129,8 @@ void Game::getInput(){ // Controles de jugador
 }
 
 void Game::logic(){
-  std::cout << player->getPosX() << " | " << player->getPosY() << endl;
+  cout << player->getPosX() << " | " << player->getPosY() << endl;
+
 }
 
 void Game::display(){
