@@ -13,7 +13,7 @@ Room::Room(){
 Room::Room( int roomId_, string nam,string ini, vector<Item*> items_, int x, int y, bool lock){
   name = nam;
   initDescriptionUrl = ini;
-  int roomId = roomId_;
+  roomId = roomId_;
   for (Item* item : items_){
     items.push_back(item);
   }
