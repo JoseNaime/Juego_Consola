@@ -6,18 +6,22 @@
 #ifndef PROYECTO_JUEGO_ROOM_H
 #define PROYECTO_JUEGO_ROOM_H
 
-#include "./../Item/Item.h"
 #include <iostream>
 #include <boost/algorithm/string.hpp>
 #include <vector>
 #include <array>
+
 #include "string"
+#include "./../Item/Item.h"
+#include "../Enemy/Enemy.h"
+
 using namespace std;
 
 class Room {
     public:
         Room(); // constructor sin parametros
-        Room(int, string, string, vector<Item*>, int, int, bool); // Constructor(nombre, initDescriptionUrl, arreglo con items del cuarto, posicion x, posicion y, el cuarto esta cerrado?)
+        Room(int, string, string, Enemy*, int, int, bool); // Constructor
+        Room(int, string, string, vector<Item*>, Enemy*, int, int, bool); // Constructor(nombre, initDescriptionUrl, arreglo con items del cuarto, posicion x, posicion y, el cuarto esta cerrado?)
     
         int getRoomId() const;
         void setRoomId(int);
@@ -33,17 +37,21 @@ class Room {
         void setLocked(bool); // Asigna si el cuarto esta bloqueado o no
         bool getPlayerIsIn() const; // Checa si el jugador se encuentra en esta cuarto
         void setPlayerIsIn(bool); // Asigna si el jugador esta en el cuarto
+        Enemy* getEnemy() const;
+        void setEnemy(Enemy*);
 
         void deleteItem(Item*);
         bool itemExists(string); // Checa si un item existe en el cuarto
         Item* getItem(string); // Regresa un item despues de checar si este existe
         void printInfo();
+        void printInfo(float);
     private:
+        int roomId, posX, posY;
+        bool locked, playerIsIn = false;
         string name, initDescriptionUrl;
         vector<Item*> items;
-        int roomId;
-        int posX, posY;
-        bool locked, playerIsIn = false;
+        Enemy* enemy;
+
 };
 
 #endif //PROYECTO_JUEGO_ROOM_H

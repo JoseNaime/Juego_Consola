@@ -10,6 +10,9 @@
 
 #include "../Character/Character.h"
 #include "../Item/Item.h"
+#include <iostream>
+
+using namespace std;
 
 class Enemy: public Character{
     public:
@@ -20,10 +23,10 @@ class Enemy: public Character{
         Item* getEnemyItem(); // Regresa el reward o item que tiene el enemigo
         void setEnemy(Item*); // Asigna el reward o item que tiene el enemigo
 
-        void attack(int, Character*);
+        void attack(Character*);
     private:
         string enemyDescriptUrl;
-        Item* item;
+        Item* item = nullptr;
 };
 
 #endif // PROYECTO_JUEGO_ENEMY_H

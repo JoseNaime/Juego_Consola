@@ -7,7 +7,7 @@
 #include "Inventory.h"
 
 Inventory::Inventory() {
-  space = 3;
+  space = 6;
 }
 
 Inventory::Inventory(int space_, vector<Item*> items_){
@@ -21,6 +21,7 @@ Inventory::Inventory(int space_, vector<Item*> items_){
 void Inventory::addItem(Item * item_){
   if (currentSpace + item_->getSize() <= space){
     items.push_back(item_);
+    currentSpace += item_->getSize();
     cout << "Se ha agregado a tu inventario: " << item_->getName() << endl;
   }else{
     cout << "No tienes espacio suficiente para guardar " << item_->getName() << endl;
@@ -38,16 +39,18 @@ void Inventory::removeItem(Item *item){
     }
 }
 
-void Inventory::printInventory(){
+void Inventory::printInventory(bool enterToContinue_){
   if (items.size() <= 0){
-    cout << "El inventario esta vacio, busca algunos objetos" << endl;
+    cout << "\nEl inventario esta vacio, busca algunos objetos" << endl;
   }else{
     cout << "Inventario: " << endl;
     for (Item* item : items){
       cout << "- " << item->getName() << " : " << item->getDescription() << endl;
     }
   }
+  if (enterToContinue_){
   Game::enterToContinue();
+  }
 }
 
 vector<Item*> Inventory::getItems() const{
@@ -64,6 +67,10 @@ void Inventory::setSpace(int size_){
 
 int Inventory::getSpace() const{
   return space;
+}
+
+int Inventory::getCurrentSpace() const{
+  return currentSpace;
 }
 
 bool Inventory::itemExists(string name_){

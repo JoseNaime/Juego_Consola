@@ -18,10 +18,11 @@ class Inventory{
 
     void addItem(Item*); //Metodo para agregar un Item al inventario
     void removeItem(Item*); //Metodo para eliminar un Item del inventario
-    void printInventory();  // Imprime el inventario
+    void printInventory(bool);  // Imprime el inventario
 
     vector<Item*> getItems() const; // Regresa un vector con los Items del inventario
     int getSpace() const; //Regresa el espacio máximo del inventario
+    int getCurrentSpace() const;
     void setItems(vector<Item*>); // Asigna un vector con los Items al inventario
     void setSpace(int); //Asigna el espacio máximo del inventario
     bool itemExists(string);

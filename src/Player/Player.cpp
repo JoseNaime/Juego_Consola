@@ -50,10 +50,17 @@ PLAYER_CONTEXT Player::moveTo(DIRECTION dir){
             for (Room* room : rooms){
               if (room->getPosition()[0] == getPosX() + move[0] && room->getPosition()[1] == getPosY() + move[1]){
                 if (room->getLocked()){
-                  string keyNeeded = "Llave " + to_string(room->getRoomId());
+                  string keyNeeded = "Llave_" + to_string(room->getRoomId());
                   cout << keyNeeded << endl;
                   if (inventory->itemExists(keyNeeded)){
+                    Game::clearScreen(0);
+                    room->setPlayerIsIn(true);
+                    inventory->removeItem(inventory->getItem(keyNeeded));
                     cout << "Cuentas con la llave para esta puerta, asi que decides abrirla..." << endl;
+                    Game::enterToContinue();
+                    if (room->getEnemy()->getLives() > 0){
+                      return COMBAT;
+                    }
                     return IN_ROOM;
                   }else{
                     cout << "El " << room->getName() << " esta cerrado, deberas buscar una forma de abrirlo" << endl;
@@ -67,6 +74,15 @@ PLAYER_CONTEXT Player::moveTo(DIRECTION dir){
               }
             }
           return NAVIGATE;
+          }
+          case '_':{
+            if (inventory->itemExists("Llave_Final")){
+              return ESCAPED;
+            }else{
+              cout << "Esta puerta parece estar cerrada, debes buscar una forma de abrirla" << endl;
+              Game::enterToContinue();
+            }
+            return NAVIGATE;
           }
         }
     }
@@ -106,6 +122,6 @@ void Player::setMap(Map* map_){
   map = map_;
 }
 
-void Player::attack(int, Character*){
-
+void Player::attack(Character* e){
+  e->setLives(e->getLives() - getDamage());
 }

@@ -10,13 +10,24 @@ Room::Room(){
 
 }
 
-Room::Room( int roomId_, string nam,string ini, vector<Item*> items_, int x, int y, bool lock){
+Room::Room( int roomId_, string nam,string ini, Enemy* e, int x, int y, bool lock){
+  roomId = roomId_;
   name = nam;
   initDescriptionUrl = ini;
+  enemy = e;
+  posX = x;
+  posY = y;
+  locked = lock;
+}
+
+Room::Room( int roomId_, string nam,string ini, vector<Item*> items_, Enemy* e, int x, int y, bool lock){
   roomId = roomId_;
-  for (Item* item : items_){
-    items.push_back(item);
+  name = nam;
+  initDescriptionUrl = ini;
+  for (int i = 0; i < items_.size(); i++){
+    items.push_back(items_[i]);
   }
+  enemy = e;
   posX = x;
   posY = y;
   locked = lock;
@@ -68,6 +79,14 @@ bool Room::getPlayerIsIn() const{
   return playerIsIn;
 }
 
+Enemy* Room::getEnemy() const{
+  return enemy;
+}
+
+void Room::setEnemy(Enemy* e){
+  enemy = e;
+}
+
 void Room::deleteItem(Item *item){
     items.erase(remove(items.begin(), items.end(), item));
 }
@@ -96,13 +115,26 @@ Item* Room::getItem(string name_){
 
 void Room::printInfo(){ // Se imprime toda la informacion del cuarto
   Game::clearScreen(0);
-  cout << name << endl;
+  cout << "---------- " << name << " ----------" << endl;
   Game::printTextFile(initDescriptionUrl, 1.5, false, false);
-  cout << "\nEn el cuarto se encuentran los siguietes items: " << endl;
-  for(Item* item : items){
-    Game::addDelay(1); // Delay between text line
-    cout << "- " << item->getName() << endl;
+  if (items.size() > 0){
+    cout << "\nEn el cuarto se encuentran los siguietes items: " << endl;
+    for(Item* item : items){
+      Game::addDelay(1); // Delay between text line
+      cout << "- " << item->getName() << endl;
+    }
   }
-  
+}
 
+void Room::printInfo(float f){ // Se imprime toda la informacion del cuarto 
+  Game::clearScreen(0);
+  cout << "---------- " << name << " ----------" << endl;
+  Game::printTextFile(initDescriptionUrl, f, false, false);
+  if (items.size() > 0){
+    cout << "\nEn el cuarto se encuentran los siguietes items: " << endl;
+    for(Item* item : items){
+      Game::addDelay(1); // Delay between text line
+      cout << "- " << item->getName() << endl;
+    }
+  }
 }

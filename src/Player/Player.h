@@ -17,7 +17,7 @@
 using namespace std;
 
 enum DIRECTION {LEFT, RIGHT, UP, DOWN};
-enum PLAYER_CONTEXT {IN_ROOM, COMBAT, NAVIGATE};
+enum PLAYER_CONTEXT {IN_ROOM, COMBAT, NAVIGATE, ESCAPED, DIED};
 
 class Player : public Character {
     public:
@@ -34,7 +34,7 @@ class Player : public Character {
         void setInventory(Inventory*); // Asigna el inventario del jugador
         void setMap(Map*); //Asignar la referencia del mapa al jugador
 
-        void attack(int, Character*);
+        void attack(Character*);
 
     private:
         int posX, posY;

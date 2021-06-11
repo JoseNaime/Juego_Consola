@@ -30,6 +30,7 @@ void Enemy::setEnemy(Item* it){
     item = it;
 }
 
-void Enemy::attack(int, Character*){
-
+void Enemy::attack(Character* p){
+  cout << "Este item no te ayuda en el combate, por lo que " << getName() << " logra alcanzarte y hacerte daño...\nRECIBES " << getDamage() << " DE DAÑO" << endl;
+  p->setLives(p->getLives() - getDamage());
 }

@@ -25,7 +25,7 @@ class Character{
       void setDamage(int); // Asigna el nivel de daño
 
       //Declarada como VIRTUAL en UML
-      virtual void attack(int, Character*) = 0; // Funcion de ataque
+      virtual void attack(Character*) = 0; // Funcion de ataque
     private:
       string name;
       int lives, damage;
