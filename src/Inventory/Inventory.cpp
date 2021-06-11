@@ -33,6 +33,7 @@ void Inventory::removeItem(Item *item){
     {
         if (items[i] == item)
         {
+            currentSpace -= item->getSize();
             items.erase(items.begin() + i);
             break;
         }

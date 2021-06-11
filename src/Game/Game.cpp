@@ -41,6 +41,7 @@ GAME_STATE Game::getGameState() const {
 
 void Game::start() {
   try{
+    // Instancias de Items
     std::map<string, Item*> items{
       {
         "Llave_Final",  new Item("Llave_Final", "Esta llave te ayuda a abrir la puerta final", KEY, 1)
@@ -72,23 +73,25 @@ void Game::start() {
       {
         "Reloj", new Item("Reloj", "Tik-tak, tik-tak, tik tak", USELESS, 1)
       },
-    }; // Instancias de Items
+    }; 
 
+    // Instancias de Cuartos
     Room* rooms[4] = {
     new Room(1301, "Cuarto 1301", "./Levels/Dialogs/Room1_D", {items["Veladora"], items["Reloj"], items["Zapatos"]}, nullptr, 7, 14, false),
     new Room(1302, "Cuarto 1302", "./Levels/Dialogs/Room2_D", {items["Pato_de_hule"], items["Pistola_Oxidada"], items["Agua_Bendita"]}, nullptr, 7, 10, false),
     new Room(1303, "Cuarto 1303", "./Levels/Dialogs/Room3_D", new Enemy("Alloc", 3, 2, "Parece enojado...", items["Llave_Final"] ), 7, 6, true),
     new Room(1304, "Cuarto 1304", "./Levels/Dialogs/Room4_D", {items["Crucifijo"], items["Llave_1303"]}, nullptr, 7, 2, false),
-    }; // Instancias de Cuartos
+    }; 
 
-    map->setRooms(rooms);
-    player->setMap(map);
+    map->setRooms(rooms); // Agregamos los cuartos a nuestro mapa
+    player->setMap(map);  // Agregamos el mapa a nuestro jugador
   }catch(string e){
     cout << "Error al cargar valores iniciales en el juego: " << e << endl;
   }catch(overflow_error e){
     cout << "Overflow en valores iniciales: " << e.what() << endl;
   }
 
+  /// ------------ MENU del juego -----------------
   try{
     printTextFile(MENU_URL, 2, false, true); // Print Menu
     int option;
@@ -125,7 +128,7 @@ void Game::gameLoop() {
     while (this->gameState == IN_GAME){ // Mientras el juego este en el estado "IN_GAME" se ejecuta...
       display();  // Despliega texto a la consola
       getInput(); // Recibe input del usuario
-      logic(); // Ejecuta la logica del juego
+      logic();    // Ejecuta la logica del juego
     }
     }catch(string e){
       cout << "Error en el loop del juego: " + e;
@@ -156,30 +159,38 @@ void Game::getInput(){ // Controles de jugador
     case 'q':
       this->gameState = END;
     break;
+
+    default:
+      cout << "Valor invalido\nIngresa un nuevo valor: ";
+      getInput();
+    break;
   }
 }
 
-void Game::logic(){
+void Game::logic(){ // Logica del juego
   char auxInput;
   string auxInput2;
+    // Switch dependiendo el contexto de nuestro jugador
     switch(playerContext){
-      case IN_ROOM:{
+      /// El jugador se encuentra dentro de un cuart\o
+      case IN_ROOM:{    
         do{
-        Room* currentRoom = map->playerRoom();
-        currentRoom->printInfo();
-        printTextFile(ROOM_CONTROLS_URL, 1, false, false);
+        Room* currentRoom = map->playerRoom();              // Regresa el cuarto en el que esta el jugador
+        currentRoom->printInfo();                           // Imprime la informacion del mapa
+        printTextFile(ROOM_CONTROLS_URL, 1, false, false);  // Imprime los controles del cuarto
         cin >> auxInput;
         switch (tolower(auxInput)){
+            // Recoger un item
             case 'r':{
               bool itemExists = false;
               do{
                   cout << "\n\nQue item quieres recoger: ";
                   cin >> auxInput2;
                   itemExists = currentRoom->itemExists(auxInput2);
-                  if (itemExists){
+                  if (itemExists){  // Si el item existe
                     Item* itemSelected = currentRoom->getItem(auxInput2);
-                    currentRoom->deleteItem(itemSelected);
-                    *player->getInventory() += itemSelected;
+                    currentRoom->deleteItem(itemSelected);   // Borra item del cuarto
+                    *player->getInventory() += itemSelected; // Agrega item a inventario
                     enterToContinue();
                   }else{
                     cout << "Ese item no existe" << endl;
@@ -187,6 +198,7 @@ void Game::logic(){
               }while(!itemExists);
             break;
             }
+            // Salir del cuarto
             case 'd':
                 currentRoom->setPlayerIsIn(false); // El jugador sale del cuarto
             break;
@@ -195,83 +207,89 @@ void Game::logic(){
         playerContext = NAVIGATE;
       break;
       }
+      /// El jugador se encuentra en combate
       case COMBAT:{
-        Room* currentRoom = map->playerRoom();
-        Enemy* enemy = currentRoom->getEnemy();
-        currentRoom->printInfo();
+        Room* currentRoom = map->playerRoom();    // Regresa el cuarto en el que esta el jugador
+        Enemy* enemy = currentRoom->getEnemy();   // Regresa el enemigo que se encuentra en el cuarto
+        currentRoom->printInfo();                 // Imprime la informacion del cuarto
         cout << "\nPara combatir a " << enemy->getName() << " necesitas utilizar algun item de tu inventario..." << endl;
-        if (player->getInventory()->getCurrentSpace() == 0){
-          cout << "Tu inventario esta vacio...\n" <<"No tienes como combatir a " << enemy->getName() << " y tampoco tienes escapatoria, por lo que " << enemy->getName() << " te ataca y te mata, es tu FIN...";
-          playerContext = DIED;
-          enterToContinue();
-          logic();
-        }else{
-          player->getInventory()->printInventory(false);
-          bool itemExists = false;
-          
-          do{
-            clearScreen(0);
-            currentRoom->printInfo(0);
-            cout << "\nPara combatir a " << enemy->getName() << " necesitas utilizar algun item de tu inventario..." << endl;
-            player->getInventory()->printInventory(false);
-            cout << "\n\nQue item quieres utilizar: ";
-            cin >> auxInput2;
-            itemExists = player->getInventory()->itemExists(auxInput2);
-            if (itemExists){
-              Item* itemSelected = player->getInventory()->getItem(auxInput2);
-              if (itemSelected->getItemType() == WEAPON){ // Si el item es una ARMA
-                player->attack(enemy);
-                if (enemy->getLives() <= 0){
-                  playerContext = ESCAPED;
-                  cout << "\nLograste vencer a " << enemy->getName() << " !!" << endl;
-                  cout << "El enemigo solto un item, por lo que decides tomarlo..." << endl;
-                  *player->getInventory() += enemy->getEnemyItem();
-                  enterToContinue();
-                  logic();
-                  break;
-                }else{
-                cout << "Has dañado a " << enemy->getName() << " !!\n" << "Pero parece resisir..." << endl;
+        bool itemExists = false;
+        // Si el jugador no tiene ningun item en el inventario...
+        do{
+          if (player->getInventory()->getCurrentSpace() <= 0){ 
+            cout << "\nTu inventario esta vacio...\n\n" <<"No tienes como combatir a " << enemy->getName() << " y tampoco tienes escapatoria, por lo que " << enemy->getName() << " te ataca y te mata, es tu FIN...";
+            playerContext = DIED;     
+            enterToContinue();
+            logic();
+          }else{
+              clearScreen(0);
+              currentRoom->printInfo(0);
+              cout << "\nPara combatir a " << enemy->getName() << " necesitas utilizar algun item de tu inventario..." << endl;
+              player->getInventory()->printInventory(false);
+              cout << "\n\nQue item quieres utilizar: ";
+              cin >> auxInput2;
+              itemExists = player->getInventory()->itemExists(auxInput2);
+              // Si el item elegido existe...
+              if (itemExists){
+                Item* itemSelected = player->getInventory()->getItem(auxInput2); // Regresa el item escogido
+                if (itemSelected->getItemType() == WEAPON){ // Si el item es una ARMA
+                  player->attack(enemy);                    // Ataca al enemigo
+                  if (enemy->getLives() <= 0){              // Si la vida del enemigo es menor o igual a 0...
+                    playerContext = ESCAPED;                
+                    cout << "\nLograste vencer a " << enemy->getName() << " !!" << endl;
+                    cout << "El enemigo solto un item, por lo que decides tomarlo..." << endl;
+                    *player->getInventory() += enemy->getEnemyItem();     // Se agrega item del enemigo al jugador
+                    enterToContinue();
+                    logic();
+                    break;
+                  }else{
+                  cout << "Has dañado a " << enemy->getName() << " !!\n" << "Pero parece resisir..." << endl;
+                  }
+                }else{ // Si el item NO es un ARMA
+                  enemy->attack(player);          // El enemigo ataca al jugador
+                  if (player->getLives() <= 0){   // Si las vidas del jugador son menores o iguales a 0...
+                    playerContext = DIED;
+                    logic();
+                    break;
+                  }
                 }
-              }else{ // Si el item NO es un ARMA
-                enemy->attack(player);
-                if (player->getLives() <= 0){
-                  playerContext = DIED;
-                  logic();
-                  break;
-                }
+                *player->getInventory() -= itemSelected;
+                enterToContinue();
+              }else{
+                cout << "Ese item no existe" << endl;
               }
-              *player->getInventory() -= itemSelected;
-              enterToContinue();
-            }else{
-              cout << "Ese item no existe" << endl;
-            }
-          }while(!itemExists || player->getLives() > 0);
-        }
+          }
+        }while(!itemExists || player->getLives() > 0);
         enterToContinue();
       break;
       }
+      /// El jugador esta navegando por el mapa
       case NAVIGATE:
-      break;
+      break; 
+      /// El jugador gano el juego
       case ESCAPED:
         printTextFile(ESCAPED_URL, 1.5, false, true);
+        enterToContinue();
         gameState = START;
         start();
       break;
+      /// El jugador perdio el juego
       case DIED:
         printTextFile(DIED_URL, 1.5, false, true);
+        enterToContinue();
         gameState = START;
         start();
       break;
     }
 }
 
-void Game::display(){
+void Game::display(){  // Limpia la pantalla e imprime el mapa
     clearScreen(0);
     this->map->print();
     printTextFile(CONTROLS_URL, 0, false, false);
 }
 
-void Game::clearScreen(float delay){
+void Game::clearScreen(float delay){ 
     addDelay(delay);
     if (system("CLS")) system("clear");
 }
