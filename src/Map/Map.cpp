@@ -51,13 +51,13 @@ void Map::setPosition(int i, int j, char v) {
 
 vector<Room*> Map::getRooms(){
   vector<Room*> auxVec;
-  for (int i = 0; i < sizeof(rooms); i++){
-    auxVec.push_back(rooms[i]);
+  for (Room* room : rooms){
+    auxVec.push_back(room);
   }
   return auxVec;
 }
 
-void Map::setRooms(Room *rooms_[4]){
+void Map::setRooms(Room** rooms_){
   for(int i = 0; i < 4; i++){
     rooms[i] = rooms_[i];
   }
@@ -65,9 +65,11 @@ void Map::setRooms(Room *rooms_[4]){
 
 Room* Map::playerRoom(){
   for(Room* room : rooms){
+    cout << room->getName() << endl;
     if (room->getPlayerIsIn()){
       return room;
     }
+    cout << "No se encontro ningun cuarto";
     return nullptr;
   }
   return nullptr;

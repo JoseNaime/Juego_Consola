@@ -41,23 +41,21 @@ void Game::start() {
   *player->getInventory() += new Item("Llave Final", "Esta llave te ayuda a abrir la puerta final", KEY, 1);
   
   try{
-      vector<Item*> items = {
+    Item* items[3] = {
     new Item("Llave_Final", "Esta llave te ayuda a abrir la puerta final", KEY, 1),
     new Item("Espada", "Esta espada parece oxidada, pero servira de algo", WEAPON, 2),
-    new Item("Palo_de_Madera", "Un simple palo de madera...", USELESS, 2)
+    new Item("Palo_de_Madera", "Un simple palo de madera...", USELESS, 2),
     };
 
-  Room* rooms[4] = {
+    Room* rooms[4] = {
     new Room("Cuarto 1301", "./Levels/Dialogs/Room1_D", items, 7, 14, false),
     new Room("Cuarto 1302", "./Levels/Dialogs/Room2_D", items, 7, 10, false),
     new Room("Cuarto 1303", "./Levels/Dialogs/Room3_D", items, 7, 6, true),
-    new Room("Cuarto 1304", "./Levels/Dialogs/Room4_D", items, 7, 2, false)
+    new Room("Cuarto 1304", "./Levels/Dialogs/Room4_D", items, 7, 2, false),
     };
 
     map->setRooms(rooms);
-    for(Room* room : map->getRooms()){
-      cout << room->getName() << endl;
-    }
+    cin.ignore();
     player->setMap(map);
   }catch(string e){
     cout << "Error al cargar valores iniciales en el juego: " << e << endl;
@@ -142,7 +140,6 @@ void Game::logic(){
       case IN_ROOM:{
         do{
         Room* currentRoom = map->playerRoom();
-        currentRoom->printInfo();
         printTextFile(ROOM_CONTROLS_URL, 1, false, false);
         cin >> auxInput;
         switch (tolower(auxInput)){

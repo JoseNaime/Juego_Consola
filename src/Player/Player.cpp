@@ -47,15 +47,17 @@ PLAYER_CONTEXT Player::moveTo(DIRECTION dir){
           }
           case '|':{
             vector<Room*> rooms = map->getRooms();
-            for (Room* currentRoom : rooms){
-              if (currentRoom->getPosition()[0] == getPosX() + move[0] && currentRoom->getPosition()[1] == getPosY() + move[1]){
-                if (currentRoom->getLocked()){
-                  cout << "El " << currentRoom->getName() << " esta cerrado, deberas buscar una forma de abrirlo" << endl;
+            for (Room* room : rooms){
+              if (room->getPosition()[0] == getPosX() + move[0] && room->getPosition()[1] == getPosY() + move[1]){
+                if (room->getLocked()){
+                  cout << "El " << room->getName() << " esta cerrado, deberas buscar una forma de abrirlo" << endl;
                   Game::enterToContinue();
                   return NAVIGATE;
                   break;
                 }else{
-                  currentRoom->setPlayerIsIn(true);
+                  room->setPlayerIsIn(true);
+                  room->printInfo();
+                  
                   return IN_ROOM;
                   break;
                 }

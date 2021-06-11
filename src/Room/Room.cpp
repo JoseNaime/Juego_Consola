@@ -10,11 +10,11 @@ Room::Room(){
 
 }
 
-Room::Room(string nam, string ini, vector<Item*> items_, int x, int y, bool lock){
+Room::Room(string nam, string ini, Item** items_, int x, int y, bool lock){
   name = nam;
   initDescriptionUrl = ini;
-  for(Item* item : items_){
-    items.push_back(item);
+  for (int i = 0; i < sizeof(items_); i++){
+    items[i] = items_[i];
   }
   posX = x;
   posY = y;
@@ -37,8 +37,8 @@ void Room::setInitDescriptionUrl(string i){
   initDescriptionUrl = i;
 }
 
-int* Room::getPosition() const{
-  int pos[2] = {posX, posY};
+array<int,2> Room::getPosition() const{
+  array<int,2> pos = {posX, posY};
   return pos;
 }
 
@@ -60,11 +60,11 @@ bool Room::getPlayerIsIn() const{
 }
 
 void Room::deleteItem(Item *item){
-    for (int i = 0; i < items.size(); i++)
+    for (int i = 0; i < sizeof(items); i++)
     {
         if (items[i] == item)
         {
-            items.erase(items.begin() + i);
+            items[i] = nullptr;
             break;
         }
     }

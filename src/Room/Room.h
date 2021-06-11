@@ -10,19 +10,21 @@
 #include <iostream>
 #include <boost/algorithm/string.hpp>
 #include <vector>
+#include <array>
 #include "string"
 using namespace std;
 
 class Room {
     public:
         Room(); // constructor sin parametros
-        Room(string, string, vector<Item*>, int, int, bool); // Constructor(nombre, initDescriptionUrl, arreglo con items del cuarto, posicion x, posicion y, el cuarto esta cerrado?)
+        Room(string, string, Item**, int, int, bool); // Constructor(nombre, initDescriptionUrl, arreglo con items del cuarto, posicion x, posicion y, el cuarto esta cerrado?)
     
         string getName() const; // Regresa el nombre del cuarto.
         void setName(string); // Asigna el nombre del cuarto
         string getInitDescriptionUrl() const; // Regreasa la descripcion del cuarto.
         void setInitDescriptionUrl(string); // Asigna el url de la descripcion del cuarto
-        int* getPosition() const; // Regresa arreglo con la posicion del cuarto
+        
+        array<int,2>  getPosition() const; // Regresa arreglo con la posicion del cuarto
         void setPosition(int[2]);  // Asigna la posicion del cuarto por un arreglo de ints
         void setPosition(int, int); // Asigna la posicion por medio de 'x' y 'y'
         bool getLocked()const; // Checa si el cuarto esta bloqueado
@@ -36,7 +38,7 @@ class Room {
         void printInfo();
     private:
         string name, initDescriptionUrl;
-        vector<Item*> items;
+        Item* items[3]{nullptr};
         int posX, posY;
         bool locked, playerIsIn = false;
 };

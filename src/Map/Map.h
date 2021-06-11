@@ -20,7 +20,8 @@ class Map {
         char getPosition(int, int) const; // Regresa el character en esa posicion del mapa
         void setPosition(int, int, char);
         vector<Room*> getRooms(); // regresa todos los cuartos que tiene el mapa
-        void setRooms(Room* rooms_[5]);
+        void addRoom(Room*);
+        void setRooms(Room**);
 
         void stringToMatrix(string); // Crea matriz a partir de un archivo
         bool canMoveToPosition(int, int); // Checa si la ubicacion es valida
@@ -28,7 +29,7 @@ class Map {
         void print(); // Imprime el map
     private:
         char mapArr[17][12]{}; // [alto][ancho]
-        Room* rooms[4]{};
+        Room* rooms[4];
 };
 
 
