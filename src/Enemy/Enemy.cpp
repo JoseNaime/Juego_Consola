@@ -29,3 +29,7 @@ Item* Enemy::getEnemyItem(){
 void Enemy::setEnemy(Item* it){
     item = it;
 }
+
+void Enemy::attack(int, Character*){
+
+}

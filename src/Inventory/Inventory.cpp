@@ -3,6 +3,7 @@
 // José Pablo Naime García - A01367610
 // © 2021 José Pablo Naime García Andrés Alejandro Guzmán González All Rights Reserved
 
+#include "../Game/Game.h"
 #include "Inventory.h"
 
 Inventory::Inventory() {
@@ -46,8 +47,7 @@ void Inventory::printInventory(){
       cout << "- " << item->getName() << " : " << item->getDescription() << endl;
     }
   }
-  string aux;
-  cin >> aux;
+  Game::enterToContinue();
 }
 
 vector<Item*> Inventory::getItems() const{
@@ -64,6 +64,28 @@ void Inventory::setSpace(int size_){
 
 int Inventory::getSpace() const{
   return space;
+}
+
+bool Inventory::itemExists(string name_){
+  name_ = boost::algorithm::to_lower_copy(name_);
+  for (Item* item:items){
+    if (boost::algorithm::to_lower_copy(item->getName()) == name_){
+      return true;
+    }
+  }
+  return false;
+}
+
+Item* Inventory::getItem(string name_){
+  name_ = boost::algorithm::to_lower_copy(name_);
+  if (itemExists(name_)){
+    for (Item* item : items){
+      if (boost::algorithm::to_lower_copy(item->getName()) == name_){
+      return item;
+      }
+    }
+  }
+  return nullptr;
 }
 
 void Inventory::operator-=(Item* item_){

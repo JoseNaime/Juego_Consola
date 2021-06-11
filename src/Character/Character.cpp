@@ -17,10 +17,6 @@ Character::Character(string nam, int liv, int dam){
   damage = dam;
 }
 
-void Character::attack(int damage, Character *target){
-  target->setLives(getLives() - damage);
-}
-
 string Character::getName() const{
   return name;
 }

@@ -34,6 +34,8 @@ class Player : public Character {
         void setInventory(Inventory*); // Asigna el inventario del jugador
         void setMap(Map*); //Asignar la referencia del mapa al jugador
 
+        void attack(int, Character*);
+
     private:
         int posX, posY;
         Inventory* inventory;

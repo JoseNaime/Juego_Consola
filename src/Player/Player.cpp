@@ -50,16 +50,19 @@ PLAYER_CONTEXT Player::moveTo(DIRECTION dir){
             for (Room* room : rooms){
               if (room->getPosition()[0] == getPosX() + move[0] && room->getPosition()[1] == getPosY() + move[1]){
                 if (room->getLocked()){
-                  cout << "El " << room->getName() << " esta cerrado, deberas buscar una forma de abrirlo" << endl;
-                  Game::enterToContinue();
-                  return NAVIGATE;
-                  break;
+                  string keyNeeded = "Llave " + to_string(room->getRoomId());
+                  cout << keyNeeded << endl;
+                  if (inventory->itemExists(keyNeeded)){
+                    cout << "Cuentas con la llave para esta puerta, asi que decides abrirla..." << endl;
+                    return IN_ROOM;
+                  }else{
+                    cout << "El " << room->getName() << " esta cerrado, deberas buscar una forma de abrirlo" << endl;
+                    Game::enterToContinue();
+                    return NAVIGATE;
+                  }
                 }else{
                   room->setPlayerIsIn(true);
-                  room->printInfo();
-                  
                   return IN_ROOM;
-                  break;
                 }
               }
             }
@@ -101,4 +104,8 @@ void Player::setInventory(Inventory* inv){
 
 void Player::setMap(Map* map_){
   map = map_;
+}
+
+void Player::attack(int, Character*){
+
 }

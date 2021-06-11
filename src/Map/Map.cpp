@@ -58,8 +58,12 @@ vector<Room*> Map::getRooms(){
 }
 
 void Map::setRooms(Room** rooms_){
-  for(int i = 0; i < 4; i++){
-    rooms[i] = rooms_[i];
+  try{
+    for(int i = 0; i < 4; i++){
+      rooms[i] = rooms_[i];
+    }
+  }catch(bad_alloc e){
+    cout << "Error al asignar valores en la memoria: " << e.what() << endl;
   }
 }
 
@@ -69,9 +73,8 @@ Room* Map::playerRoom(){
     if (room->getPlayerIsIn()){
       return room;
     }
-    cout << "No se encontro ningun cuarto";
-    return nullptr;
   }
+  cout << "No se encontro ningun cuarto";
   return nullptr;
 }
 

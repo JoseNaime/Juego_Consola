@@ -24,6 +24,8 @@ class Inventory{
     int getSpace() const; //Regresa el espacio máximo del inventario
     void setItems(vector<Item*>); // Asigna un vector con los Items al inventario
     void setSpace(int); //Asigna el espacio máximo del inventario
+    bool itemExists(string);
+    Item* getItem(string);
 
     // SOBRECARGA DE OPERADORES
 

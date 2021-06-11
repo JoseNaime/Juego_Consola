@@ -17,8 +17,10 @@ using namespace std;
 class Room {
     public:
         Room(); // constructor sin parametros
-        Room(string, string, Item**, int, int, bool); // Constructor(nombre, initDescriptionUrl, arreglo con items del cuarto, posicion x, posicion y, el cuarto esta cerrado?)
+        Room(int, string, string, vector<Item*>, int, int, bool); // Constructor(nombre, initDescriptionUrl, arreglo con items del cuarto, posicion x, posicion y, el cuarto esta cerrado?)
     
+        int getRoomId() const;
+        void setRoomId(int);
         string getName() const; // Regresa el nombre del cuarto.
         void setName(string); // Asigna el nombre del cuarto
         string getInitDescriptionUrl() const; // Regreasa la descripcion del cuarto.
@@ -38,7 +40,8 @@ class Room {
         void printInfo();
     private:
         string name, initDescriptionUrl;
-        Item* items[3]{nullptr};
+        vector<Item*> items;
+        int roomId;
         int posX, posY;
         bool locked, playerIsIn = false;
 };

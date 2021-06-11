@@ -10,15 +10,24 @@ Room::Room(){
 
 }
 
-Room::Room(string nam, string ini, Item** items_, int x, int y, bool lock){
+Room::Room( int roomId_, string nam,string ini, vector<Item*> items_, int x, int y, bool lock){
   name = nam;
   initDescriptionUrl = ini;
-  for (int i = 0; i < sizeof(items_); i++){
-    items[i] = items_[i];
+  int roomId = roomId_;
+  for (Item* item : items_){
+    items.push_back(item);
   }
   posX = x;
   posY = y;
   locked = lock;
+}
+
+int Room::getRoomId() const{
+  return roomId;
+}
+
+void Room::setRoomId(int i){
+  roomId = i;
 }
 
 string Room::getName() const{
@@ -60,14 +69,7 @@ bool Room::getPlayerIsIn() const{
 }
 
 void Room::deleteItem(Item *item){
-    for (int i = 0; i < sizeof(items); i++)
-    {
-        if (items[i] == item)
-        {
-            items[i] = nullptr;
-            break;
-        }
-    }
+    items.erase(remove(items.begin(), items.end(), item));
 }
 
 bool Room::itemExists(string name_){
@@ -97,7 +99,7 @@ void Room::printInfo(){ // Se imprime toda la informacion del cuarto
   cout << name << endl;
   Game::printTextFile(initDescriptionUrl, 1.5, false, false);
   cout << "\nEn el cuarto se encuentran los siguietes items: " << endl;
-  for(Item* item: items){
+  for(Item* item : items){
     Game::addDelay(1); // Delay between text line
     cout << "- " << item->getName() << endl;
   }

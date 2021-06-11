@@ -14,11 +14,13 @@
 class Enemy: public Character{
     public:
         Enemy(); // Constructor sin parametros
-        Enemy(string, int, int, string, Item*); // Constructor con parametros
+        Enemy(string, int, int, string, Item*); // Constructor getcon parametros
         string getEnemyDescriptUrl() const; // Regresa la descripcion del enemigo
         void setEnemyDescriptUrl(string); // Asigna la descripcion del enemigo
         Item* getEnemyItem(); // Regresa el reward o item que tiene el enemigo
         void setEnemy(Item*); // Asigna el reward o item que tiene el enemigo
+
+        void attack(int, Character*);
     private:
         string enemyDescriptUrl;
         Item* item;

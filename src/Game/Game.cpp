@@ -38,24 +38,23 @@ GAME_STATE Game::getGameState() const {
 
 void Game::start() {
   // Sobrecarga de operadores para agragar o quitar item en el inventario del jugador.
-  *player->getInventory() += new Item("Llave Final", "Esta llave te ayuda a abrir la puerta final", KEY, 1);
+  *player->getInventory() += new Item("Llave 1303", "Esta llave te ayuda a abrir la puerta del cuarto 1303", KEY, 1);
   
   try{
-    Item* items[3] = {
+    vector<Item*> items = {
     new Item("Llave_Final", "Esta llave te ayuda a abrir la puerta final", KEY, 1),
     new Item("Espada", "Esta espada parece oxidada, pero servira de algo", WEAPON, 2),
     new Item("Palo_de_Madera", "Un simple palo de madera...", USELESS, 2),
     };
 
     Room* rooms[4] = {
-    new Room("Cuarto 1301", "./Levels/Dialogs/Room1_D", items, 7, 14, false),
-    new Room("Cuarto 1302", "./Levels/Dialogs/Room2_D", items, 7, 10, false),
-    new Room("Cuarto 1303", "./Levels/Dialogs/Room3_D", items, 7, 6, true),
-    new Room("Cuarto 1304", "./Levels/Dialogs/Room4_D", items, 7, 2, false),
+    new Room(1301, "Cuarto 1301", "./Levels/Dialogs/Room1_D", items, 7, 14, false),
+    new Room(1302, "Cuarto 1302", "./Levels/Dialogs/Room2_D", items, 7, 10, false),
+    new Room(1303, "Cuarto 1303", "./Levels/Dialogs/Room3_D", items, 7, 6, true),
+    new Room(1304, "Cuarto 1304", "./Levels/Dialogs/Room4_D", items, 7, 2, false),
     };
 
     map->setRooms(rooms);
-    cin.ignore();
     player->setMap(map);
   }catch(string e){
     cout << "Error al cargar valores iniciales en el juego: " << e << endl;
@@ -140,21 +139,29 @@ void Game::logic(){
       case IN_ROOM:{
         do{
         Room* currentRoom = map->playerRoom();
+        currentRoom->printInfo();
         printTextFile(ROOM_CONTROLS_URL, 1, false, false);
         cin >> auxInput;
         switch (tolower(auxInput)){
-            case 'r':
-                cout << "\n\nQue item quieres recoger: ";
-                cin >> auxInput2;
-                if (currentRoom->itemExists(auxInput2)){
-                  Item* itemSelected = currentRoom->getItem(auxInput2);
-                  currentRoom->deleteItem(itemSelected);
-                  *player->getInventory() += itemSelected;
-                  enterToContinue();
-                }
+            case 'r':{
+              bool itemExists = false;
+              do{
+                  cout << "\n\nQue item quieres recoger: ";
+                  cin >> auxInput2;
+                  itemExists = currentRoom->itemExists(auxInput2);
+                  if (itemExists){
+                    Item* itemSelected = currentRoom->getItem(auxInput2);
+                    currentRoom->deleteItem(itemSelected);
+                    *player->getInventory() += itemSelected;
+                    enterToContinue();
+                  }else{
+                    cout << "Ese item no existe" << endl;
+                  }
+              }while(!itemExists);
             break;
+            }
             case 's':
-                currentRoom->setPlayerIsIn(false);
+                currentRoom->setPlayerIsIn(false); // El jugador sale del cuarto
             break;
           }
         }while(auxInput != 's');
